@@ -32,6 +32,10 @@ const JobCard = ({
         if(savedJob!==undefined) setSaved(savedJob?.length>0);
       },[savedJob]);
     }
+    const handleDeleteJob = async () => {
+      await fnDeleteJob();
+      onJobAction();
+    };
 
   return (
     <div>
