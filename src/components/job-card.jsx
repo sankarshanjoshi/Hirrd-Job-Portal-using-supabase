@@ -5,7 +5,7 @@ import { Heart, MapIcon, MapPinIcon, Trash2Icon } from 'lucide-react'
 import { Link } from 'react-router-dom'
 import { Button } from './ui/button'
 import useFetch from '@/hooks/use-fetch'
-import { saveJob } from '@/api/apiJobs'
+import { deleteJob, saveJob,  } from '@/api/apiJobs'
 
 const JobCard = ({
     job,
@@ -15,6 +15,10 @@ const JobCard = ({
 
 }) => {
   const[saved, setSaved] = useState(savedInit)
+ 
+  const { loading: loadingDeleteJob, fn: fnDeleteJob } = useFetch(deleteJob, {
+    job_id: job.id,
+  });
 
   const {fn:fnSavedJob, data:savedJob, loading:loadingsavedJob} = useFetch(saveJob,{alreadySaved: saved,});
 
@@ -39,7 +43,7 @@ const JobCard = ({
 
   return (
     <div>
-      <Card className="flex flex-col">
+      <Card className="flex flex-col h-full">
         <CardHeader className ="flex">
             <CardTitle className ="flex justify-between font-bold">
                 {job.title}
@@ -68,7 +72,7 @@ const JobCard = ({
             {job.description.substring(0,job.description.indexOf("."))}
         </CardContent>
         <CardFooter className = " flex gap-2">
-          <Link to={'/job/${job.id}'} className='flex-1'>
+          <Link to={`/job/${job.id}`} className='flex-1'>
             <Button variant = "secondary" className = "w-full">
               More Details
             </Button>
